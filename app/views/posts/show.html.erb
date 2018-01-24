@@ -14,13 +14,14 @@
 </p>
 <hr/>
 
-<h5>Create a comment:</h5>
+<%= render "shared/errors", object: @comment %>
 <%= form_for [@post, @comment] do |f| %>
-  <%= f.text_area :body %>
+  <%= f.label :body, "Leave a comment:" %>
+  <%= f.text_area :body, rows: 3 %>
   <br/>
   <%= f.submit "Create Comment", class: "btn btn-primary" %>
 <% end %>
 
 
 <h5>Comments:</h5>
-<%# = render @post.comments %>
+<%= render @post.comments %>

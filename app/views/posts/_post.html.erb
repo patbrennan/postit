@@ -11,8 +11,10 @@
       </small>
     </p>
     <p>
-      <span class="quiet">posted by</span> <%= post.user.username || "unknown" %>
-      <small>at</small> <%= post.created_at %>.
+      <small>
+        <span class="quiet">posted by</span> <%= post.user.username || "unknown" %>
+        on <%= format_date(post.created_at) %>.
+      </small>
       <small>
         <%= link_to("#{post.comments.size} comments", post_path(post)) %>
       </small>

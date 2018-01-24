@@ -1,0 +1,13 @@
+<div class="well">
+  <em>"<%= comment.body %>"</em><br/>
+  <span class="quiet">
+    posted by <%= link_to comment.user.username, "/#" %> at 
+    <small>
+      <% if comment.created_at %>
+        <%= format_date(comment.created_at) %>
+      <% else %>
+        Unknown
+      <% end %>
+    </small>
+  </span>
+</div>
