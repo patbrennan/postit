@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update]
+  before_action :require_user, except: [:index, :show]
 
   # GET /posts
   def index
@@ -21,7 +22,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-    @post.user = User.first # TODO: change one we have authentication
+    @post.user = current_user
     @action = "Create"
 
     if @post.save

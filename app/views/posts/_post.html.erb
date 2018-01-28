@@ -6,13 +6,15 @@
     <h4><%= link_to post.title, post_path(post) %></h4>
     <p>
       <%= post.description %>
-      <small>
-          (<%= link_to 'edit', edit_post_path(post) %>)
-      </small>
+      <% if logged_in? %>
+        <small>
+            (<%= link_to 'edit', edit_post_path(post) %>)
+        </small>
+      <% end %>
     </p>
     <p>
       <small>
-        <span class="quiet">posted by</span> <%= post.user.username || "unknown" %>
+        <span class="quiet">posted by</span> <%= link_to post.user.username || "unknown", user_path(post.user) %>
         on <%= format_date(post.created_at) %>.
       </small>
       <small>

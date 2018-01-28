@@ -2,7 +2,12 @@ PostitTemplate::Application.routes.draw do
   root to: "posts#index"
   
   # the route, then route it to the posts controller, index action
-  get "/posts", to: "posts#index"
+  get "/register", to: "users#new"
+  
+  # These resources simulate logging in / out
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  get "/logout", to: "sessions#destroy"
   
   # show is defined as a method inside the posts_controller.rb file
   # You can determine the name of the :id part & use that in your ruby code
@@ -15,6 +20,6 @@ PostitTemplate::Application.routes.draw do
   resources :posts, except: [:destroy] do
     resources :comments, only: [:create]
   end
-  
   resources :categories, only: [:new, :create, :show]
+  resources :users, except: [:destroy, :new]
 end

@@ -1,7 +1,11 @@
 <div class="well">
-  <em>"<%= comment.body %>"</em><br/>
+  <em>"<%= comment.body %>"</em>
+  <% if defined?(title) %>
+    on <%= link_to "#{comment.post.title}", post_path(comment.post) %>
+  <% end %>
+  <br/>
   <span class="quiet">
-    posted by <%= link_to comment.user.username, "/#" %> at 
+    posted by <%= link_to comment.user.username, user_path(comment.user) %> at 
     <small>
       <% if comment.created_at %>
         <%= format_date(comment.created_at) %>
