@@ -1,3 +1,5 @@
+## PB's first practice Rails app.
+
 == Getting Started
 
 1. Make sure you have rails version 4. Type "rails -v" to make sure.
