@@ -1,17 +1,37 @@
-<div class="well">
-  <em>"<%= comment.body %>"</em>
-  <% if defined?(title) %>
-    on <%= link_to "#{comment.post.title}", post_path(comment.post) %>
-  <% end %>
-  <br/>
-  <span class="quiet">
-    posted by <%= link_to comment.user.username, user_path(comment.user) %> at 
-    <small>
-      <% if comment.created_at %>
-        <%= format_date(comment.created_at) %>
-      <% else %>
-        Unknown
+<div class="row">
+  <div class="span0 well text-center">
+    <% if logged_in? %>
+      <%= link_to vote_post_comment_path(comment.post, comment, {vote: true}), method: "post" do %>
+        <i class="icon-arrow-up"></i>
       <% end %>
-    </small>
-  </span>
+      <br/>
+    <% end %>
+      
+      <%= comment.vote_count %> votes
+      
+      <br/>
+    <% if logged_in? %>
+      <%= link_to vote_post_comment_path(comment.post, comment, {vote: false}), method: "post" do %>
+        <i class="icon-arrow-down"></i>
+      <% end %>
+    <% end %>
+  </div>
+  
+  <div class="span8 well">
+    <em>"<%= comment.body %>"</em>
+    <% if defined?(title) %>
+      on <%= link_to "#{comment.post.title}", post_path(comment.post) %>
+    <% end %>
+    <br/>
+    <span class="quiet">
+      posted by <%= link_to comment.user.username, user_path(comment.user) %> at 
+      <small>
+        <% if comment.created_at %>
+          <%= format_date(comment.created_at) %>
+        <% else %>
+          Unknown
+        <% end %>
+      </small>
+    </span>
+  </div>
 </div>

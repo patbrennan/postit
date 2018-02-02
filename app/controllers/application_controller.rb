@@ -30,10 +30,10 @@ class ApplicationController < ActionController::Base
   end
   
   def get_posts(user)
-    @user_posts ||= user.posts
+    @user_posts ||= user.posts.sort_by {|x| x.vote_count }.reverse
   end
   
   def get_comments(user)
-    @user_comments = user.comments
+    @user_comments ||= user.comments.sort_by {|x| x.vote_count }.reverse
   end
 end

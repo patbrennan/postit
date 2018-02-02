@@ -18,7 +18,18 @@ PostitTemplate::Application.routes.draw do
   # get "/posts/:id/edit", to: "posts#edit"
   # patch "/posts/:id", to: "posts#update"
   resources :posts, except: [:destroy] do
-    resources :comments, only: [:create]
+    member do
+      post :vote # builds out "posts/:id/vote" for every posts/:id
+    end
+    
+    # collection do
+    #   get :archives # "/posts/archives"
+    # end
+    resources :comments, only: [:create] do
+      member do
+        post :vote # "posts/:id/comments/:id/vote"
+      end
+    end
   end
   resources :categories, only: [:new, :create, :show]
   resources :users, except: [:destroy, :new]

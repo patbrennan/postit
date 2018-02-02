@@ -14,4 +14,17 @@ class CommentsController < ApplicationController
       render "posts/show" # template, not a URL
     end
   end
+  
+  def vote
+    @comment = Comment.find(params[:id])
+    @vote = Vote.create(voteable: @comment, user: current_user, vote: params[:vote])
+    
+    if @vote.valid?
+      flash[:notice] = "Vote counted."
+    else
+      flash[:error] = "You already voted on that comment."
+    end
+    
+    redirect_to :back
+  end
 end

@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update]
+  before_action :set_post, only: [:show, :edit, :update, :vote]
   before_action :require_user, except: [:index, :show]
 
   # GET /posts
   def index
-    # default action
-    @posts = Post.all
+    # TODO: limit to 10 posts, not ALL posts (very expensive db transactions)
+    @posts = Post.all.sort_by { |x| x.vote_count }.reverse
   end
 
   # GET /posts/:id
@@ -48,6 +48,19 @@ class PostsController < ApplicationController
     else
       render :edit
     end
+  end
+  
+  def vote
+    @vote = Vote.create(voteable: @post, user: current_user, vote: params[:vote])
+    title = @post.title
+    
+    if @vote.valid?
+      flash[:notice] = "Vote counted for #{title}."
+    else
+      flash[:error] = "You've already voted for #{title}."
+    end
+    
+    redirect_to :back
   end
   
   private

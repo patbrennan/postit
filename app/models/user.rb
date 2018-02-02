@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :posts
   has_many :comments
+  has_many :votes
   
   # will prevent it from validating anything, so you can manually do validations
   has_secure_password validations: false
