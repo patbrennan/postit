@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :require_user
   
   def create
-    @post = Post.find(params[:post_id])
+    @post = Post.find_by(slug: params[:post_id])
     @comment = Comment.new(params.require(:comment).permit(:body))
     @comment.user = current_user
     @comment.post = @post
@@ -25,6 +25,8 @@ class CommentsController < ApplicationController
       flash[:error] = "You already voted on that comment."
     end
     
-    redirect_to :back
+    respond_to do |format|
+      format.js
+    end
   end
 end

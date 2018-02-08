@@ -1,0 +1,2 @@
+<%# has access to instance variables - use erb & js syntax %>
+$("#comment_<%= @comment.id %>_votes").html("<%= @comment.vote_count %>");

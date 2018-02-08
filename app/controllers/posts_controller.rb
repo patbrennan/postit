@@ -54,13 +54,16 @@ class PostsController < ApplicationController
     @vote = Vote.create(voteable: @post, user: current_user, vote: params[:vote])
     title = @post.title
     
-    if @vote.valid?
-      flash[:notice] = "Vote counted for #{title}."
-    else
-      flash[:error] = "You've already voted for #{title}."
-    end
+    # if @vote.valid?
+    #   flash[:notice] = "Vote counted for #{title}."
+    # else
+    #   flash[:error] = "You've already voted for #{title}."
+    # end
     
-    redirect_to :back
+    respond_to do |format|
+      # format.html { redirect_to :back } # normal flow
+      format.js # ajaxified flow - will use the vote.js.erb file 
+    end
   end
   
   private
@@ -71,6 +74,6 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(slug: params[:id])
   end
 end
