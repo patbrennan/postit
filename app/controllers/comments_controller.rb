@@ -19,14 +19,14 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @vote = Vote.create(voteable: @comment, user: current_user, vote: params[:vote])
     
-    if @vote.valid?
-      flash[:notice] = "Vote counted."
-    else
-      flash[:error] = "You already voted on that comment."
-    end
-    
     respond_to do |format|
-      format.js
+      format.js do
+        if @vote.valid?
+          flash[:notice] = "Vote counted."
+        else
+          flash[:error] = "You already voted on that comment."
+        end
+      end
     end
   end
 end
