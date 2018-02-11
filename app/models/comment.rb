@@ -1,19 +1,8 @@
 class Comment < ActiveRecord::Base
+  include Voteable # able to pick up file because autoload_paths added in application.rb
+  
   belongs_to :user
   belongs_to :post
-  has_many :votes, as: :voteable
   
   validates :body, presence: true, length: {maximum: 1000, minimum: 1}
-  
-  def vote_count
-    self.up_votes - self.down_votes
-  end
-  
-  def up_votes
-    self.votes.where(vote: true).size
-  end
-  
-  def down_votes
-    self.votes.where(vote: false).size
-  end
 end

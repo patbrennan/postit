@@ -11,6 +11,11 @@ class PostsController < ApplicationController
   # GET /posts/:id
   def show
     @comment = Comment.new
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @post }
+    end
   end
 
   # GET /posts/new
