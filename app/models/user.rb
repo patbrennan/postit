@@ -12,4 +12,5 @@ class User < ActiveRecord::Base
   def to_param
     self.username
   end
+  alias_method :to_s, :to_param
 end
