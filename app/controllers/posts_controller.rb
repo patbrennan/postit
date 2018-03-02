@@ -7,8 +7,13 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     # TODO: limit to 10 posts, not ALL posts (very expensive db transactions)
+    @posts = Post.offset(params[:offset]).limit(Post::PER_PAGE)
+    @pages ||= (Post.all.size / Post::PER_PAGE.to_f).ceil
+    @per_page = Post::PER_PAGE
+    
     respond_to do |f|
-      @posts = Post.all.sort_by { |x| x.vote_count }.reverse
+      # offset won't throw an exception if its value is nil
+      # .sort_by { |x| x.vote_count }.reverse
       f.html
       f.json { render json: @posts }
     end

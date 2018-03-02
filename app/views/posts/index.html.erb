@@ -4,3 +4,23 @@
 <% @posts.each do |post| %>
   <%= render "post", post: post %>
 <% end %>
+
+<div class="row text-center">
+  <% current_offset = params[:offset].to_i %>
+  
+  <% if current_offset > 0 %>
+    <%= link_to("<", posts_path(offset: current_offset - @per_page)) %>
+  <% end %>
+  
+  <% @pages.times do |n| %>
+    <% if current_offset == n * @per_page %>
+      <%= "#{n + 1}" %>
+    <% else %>
+      <%= link_to("#{n + 1}", posts_path(offset: n * @per_page)) %>
+    <% end %>
+  <% end %>
+  
+  <% if current_offset < (@pages * @per_page - @per_page) %>
+    <%= link_to(">", posts_path(offset: current_offset + @per_page)) %>
+  <% end %>
+</div>

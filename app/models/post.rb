@@ -1,6 +1,10 @@
 class Post < ActiveRecord::Base
+  PER_PAGE = 5
+
   include Voteable # includes file because autoload_paths added in application.rb
   include Sluggable
+  
+  default_scope { order('created_at ASC') }
   
   belongs_to :user
   has_many :comments
