@@ -13,4 +13,12 @@ class Post < ActiveRecord::Base
   validates :slug, uniqueness: true
   
   sluggable_column :title
+  
+  def as_json(*) # oveerride the API endpoint to expose only certain data
+    super(only: [:url, :title, :description, :created_at]).tap do |hash|
+      hash["votes"] = self.vote_count.to_s
+      hash["author"] = self.user.username
+      hash["comments"] = self.comments.as_json
+    end
+  end
 end

@@ -13,4 +13,12 @@ class User < ActiveRecord::Base
     self.username
   end
   alias_method :to_s, :to_param
+  
+  def admin?
+    self.role == "admin"
+  end
+  
+  def moderator?
+    self.role == "moderator"
+  end
 end

@@ -1,17 +1,23 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :vote]
   before_action :require_user, except: [:index, :show]
+  # before_action :require_admin, only: [:edit, :update]
+  before_action :require_creator, only: [:edit, :update]
 
   # GET /posts
   def index
     # TODO: limit to 10 posts, not ALL posts (very expensive db transactions)
-    @posts = Post.all.sort_by { |x| x.vote_count }.reverse
+    respond_to do |f|
+      @posts = Post.all.sort_by { |x| x.vote_count }.reverse
+      f.html
+      f.json { render json: @posts }
+    end
   end
 
   # GET /posts/:id
   def show
     @comment = Comment.new
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @post }
@@ -80,5 +86,11 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find_by(slug: params[:id])
+  end
+  
+  def require_creator
+    # set_post is firing & setting @post instance variable
+    # if not logged in || user isn't author
+    access_denied unless logged_in? and (current_user == @post.user || current_user.admin?)
   end
 end

@@ -5,7 +5,7 @@ module ApplicationHelper
 
   # render "mm/dd/yyyy, HH:MM AM"
   def format_date(str)
-    if logged_in? && !current_user.time_zone.blank?
+    if logged_in? && !current_user.time_zone.blank? # tests nil or empty
       str = str.in_time_zone(current_user.time_zone)
     end
     
